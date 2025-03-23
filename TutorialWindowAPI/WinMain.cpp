@@ -1,4 +1,5 @@
 ﻿
+#include <sstream>
 #include <Windows.h>
 
 const wchar_t gClassName[]= L"MyWindowsClass";
@@ -36,11 +37,11 @@ int WINAPI WinMain(
     );
         return 0;
     }
-
+    
     // Generate the windows
     hWnd = CreateWindowEx(NULL,
         gClassName,
-        L"Hello Window",
+        L"1-2 Drawing Shapes",
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT,
         CW_USEDEFAULT,
@@ -77,6 +78,40 @@ int WINAPI WinMain(
     {
         switch (message)
         {
+        case WM_LBUTTONDOWN:
+            {
+                HDC hdc = nullptr;
+                hdc = GetDC(hWnd);
+                Rectangle (hdc, 0, 0, 100, 100);
+                ReleaseDC (hWnd, hdc); // must release the DC once you get it (like new delete) 
+                break;
+            }
+        case WM_PAINT: // using window message to draw permernent regtangles.  
+            {
+                PAINTSTRUCT ps; // Drawing the shapes no matter how screen size is.
+                HDC hdc = BeginPaint(hWnd, &ps);
+
+                HPEN bluePen = CreatePen (PS_DOT, 1, RGB(0,0,255));
+                //Rectangle (hdc, 0, 0, 100, 100);
+                SetPixel (hdc, 50, 50, RGB(255,0,0));
+                LineTo (hdc, 100, 110);
+                DeleteObject (bluePen);
+
+                HBRUSH hatchbrush = CreateHatchBrush(HS_CROSS, RGB(0, 255,0));
+                HBRUSH oldBrush = (HBRUSH)SelectObject (hdc, hatchbrush); 
+                Rectangle (hdc, 0 ,0, 200,200);
+                DeleteObject (hatchbrush);
+                SelectObject (hdc, oldBrush);
+                
+                EndPaint(hWnd, &ps);
+            }
+        case WM_KEYDOWN:
+            {
+                std::wostringstream oss;
+                oss<< "Virtual Key = " << wParam << ", Extra = " <<std::hex << lparam << std::endl;
+                OutputDebugString(oss.str().c_str());
+                break; 
+            }
         case WM_CLOSE:
             DestroyWindow(hWnd);
             break;
