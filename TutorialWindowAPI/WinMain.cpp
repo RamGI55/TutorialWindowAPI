@@ -1,5 +1,9 @@
 ﻿
 #include <Windows.h>
+#include <gdiplus.h>
+#pragma comment (lib, "gdiplus.lib")
+
+using namespace Gdiplus; 
 
 const wchar_t gClassName[]= L"MyWindowsClass";
 LRESULT CALLBACK WindowProc(
@@ -12,6 +16,9 @@ int WINAPI WinMain(
    _In_ int       nCmdShow
 )
 {
+    Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+    ULONG_PTR gdiplusToken;
+    Gdiplus::GdiplusStartup (&gdiplusToken, &gdiplusStartupInput, nullptr);
     HWND hWnd;
     WNDCLASSEX wc;
 
@@ -69,6 +76,7 @@ int WINAPI WinMain(
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
+    Gdiplus::GdiplusShutdown(gdiplusToken); 
     return static_cast<int>(msg.wParam);
 }
 
@@ -77,6 +85,33 @@ int WINAPI WinMain(
     {
         switch (message)
         {
+<<<<<<< Updated upstream
+=======
+        case WM_LBUTTONDOWN:
+            {
+                break;
+            }
+        case WM_PAINT: // using window message to draw permernent regtangles.  
+            {
+                PAINTSTRUCT ps; // Drawing the shapes no matter how screen size is.
+                                // No longer to be invalidated when it is screened to other screens. 
+                HDC hdc = BeginPaint(hWnd, &ps); // Device Context
+
+                Graphics graphic(hdc);
+                Pen pen(Color(255, 0, 0, 255));
+                graphic.DrawLine(&pen, 0, 0, 100, 100);
+                // Using gdiplus graphics to draw the line.
+                
+                EndPaint(hWnd, &ps);
+            }
+        case WM_KEYDOWN:
+            {
+                std::wostringstream oss;
+                oss<< "Virtual Key = " << wParam << ", Extra = " <<std::hex << lparam << std::endl;
+                OutputDebugString(oss.str().c_str());
+                break; 
+            }
+>>>>>>> Stashed changes
         case WM_CLOSE:
             DestroyWindow(hWnd);
             break;
