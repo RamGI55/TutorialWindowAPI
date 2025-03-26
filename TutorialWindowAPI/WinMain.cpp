@@ -46,6 +46,8 @@ int WINAPI WinMain(
         return 0;
     }
 
+    RECT wr = { 0, 0, 1024, 768}; // set the size, and the position of the window.
+
     // Generate the windows
     hWnd = CreateWindowEx(NULL,
         gClassName,
@@ -53,8 +55,8 @@ int WINAPI WinMain(
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT,
         CW_USEDEFAULT,
-        640,
-        480,
+        wr.right - wr.left,
+        wr.bottom - wr.top,
         NULL,
         NULL,
         hInstance,
