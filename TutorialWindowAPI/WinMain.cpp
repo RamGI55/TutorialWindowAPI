@@ -49,7 +49,7 @@ int WINAPI WinMain(
     // Generate the windows
     hWnd = CreateWindowEx(NULL,
         gClassName,
-        L"1-3",
+        L"Solitare",
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT,
         CW_USEDEFAULT,
@@ -89,16 +89,6 @@ void OnPaint (HWND hwnd)
     PAINTSTRUCT ps;
     hdc = BeginPaint(hwnd, &ps);
 
-    Graphics graphic(hdc);
-    Pen pen (Color(255,0, 0, 255));
-    graphic.DrawLine(&pen, 0, 0, 100, 100);
-
-    SolidBrush brush(Color(255, 0, 0, 255));
-    FontFamily fontFamily(L"Arial");
-    Font font (&fontFamily, 24, FontStyleRegular, UnitPixel);
-    PointF pointF(200.f, 200.f);
-    graphic.DrawString(L"This is the test string", -1 ,&font, pointF, &brush);
-
     EndPaint(hwnd, &ps);
 }
 
@@ -107,21 +97,6 @@ void GetPic (HWND hwnd)
 {
     HDC hdc;
     PAINTSTRUCT ps;
-
-    hdc = BeginPaint(hwnd, &ps);
-    Graphics graphic(hdc);
-
-    Image image(L"Shiroko.jpg");
-
-    //Draw the image with the rescaling. 
-    int x = ps.rcPaint.left;
-    int y = ps.rcPaint.top;
-    int w = ps.rcPaint.right - ps.rcPaint.left;
-    int h = ps.rcPaint.bottom - ps.rcPaint.top;
-    graphic.DrawImage(&image, x, y, w, h);
-    
-    //draw the image with the original size.
-    // graphic.DrawImage(&image, 120, 10, image.GetWidth(), image.GetHeight());
     
     EndPaint(hwnd, &ps);
 }
@@ -144,9 +119,7 @@ void GetPic (HWND hwnd)
             }
         case WM_KEYDOWN:
             {
-                /*std::ostringstream oss;
-                oss<< "Virtual Key = " << wParam << ", Extra = " <<std::hex << lparam << std::endl;
-                OutputDebugString(oss.str().c_str());*/
+              
                 break; 
             }
 
