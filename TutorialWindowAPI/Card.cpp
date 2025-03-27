@@ -7,13 +7,22 @@
 
 #include "Card.h"
 
-solitaire::Card::Card(Type type, int x, int y)
+solitaire::Card::Card(Type type, int x, int y):
+mType(type), mX (x), mY (y), isFront (false)
 {
     // initialise the status of the card. type, x, y and front status.
-
+  
         // Switch function each types of the card (Wolf, Dragon , Bear)
+    switch (type)
+    {
+        // Wolf
 
+        // dragon
+
+        // bear
+    }
     // initialise the back and front image of the card as dynamic memory. (we used the smarter pointer) 
+    
 }
 
 bool solitaire::Card::isClicked(int x, int y)

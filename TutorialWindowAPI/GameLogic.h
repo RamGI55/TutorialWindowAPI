@@ -5,7 +5,7 @@ class GameLogic
 public:
 
     // 8 x 5 grid of cards
-
+    
     // card area - 885.f x 60.f x 120.f x 30.f
 
     // draw the background
