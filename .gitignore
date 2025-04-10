@@ -32,4 +32,5 @@
 *.app
 
 #Debug
-\Debug\
+\Debug
+\x64
