@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include<Windows.h>
+#include <Windows.h>
 #include<gdiplus.h>
 #include <memory>
 
@@ -15,9 +15,10 @@ namespace solitaire
 {
     enum class Type
     {
-        Wolf,
-        Dragon,
-        Bear
+        Belka,
+        Klukai,
+        Mechty,
+        Andoris
     };
     // Types of the cards. 
 

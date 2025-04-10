@@ -1,13 +1,17 @@
 ﻿
 #include <complex>
 #include <Windows.h>
-#include <gdiplus.h>
 #include <sstream>
+#include "GameLogic.h"
+
 #pragma comment (lib, "gdiplus.lib")
 
 using namespace Gdiplus; 
 
 const wchar_t gClassName[]= L"MyWindowsClass";
+
+solitaire::GameLogic gLogic; 
+
 LRESULT CALLBACK WindowProc(
     HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -20,10 +24,14 @@ int WINAPI WinMain(
 {
     Gdiplus::GdiplusStartupInput gdiplusStartupInput;
     ULONG_PTR gdiplusToken;
+    
     Gdiplus::GdiplusStartup (&gdiplusToken, &gdiplusStartupInput, nullptr);
+
+   
     HWND hWnd;
     WNDCLASSEX wc;
 
+    
     // register the window class
     ZeroMemory (&wc, sizeof (WNDCLASSEX)); // intialise the memory as 0. 
 
@@ -70,6 +78,7 @@ int WINAPI WinMain(
             );
         return 0; 
     }
+    gLogic.Init();
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
@@ -80,6 +89,8 @@ int WINAPI WinMain(
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
+
+    gLogic.Release();
     Gdiplus::GdiplusShutdown(gdiplusToken); 
     return static_cast<int>(msg.wParam);
 }
@@ -90,7 +101,9 @@ void OnPaint (HWND hwnd)
     HDC hdc;
     PAINTSTRUCT ps;
     hdc = BeginPaint(hwnd, &ps);
+    Gdiplus::Graphics graphics (hdc);
 
+    gLogic.Draw(graphics);
     EndPaint(hwnd, &ps);
 }
 
@@ -119,12 +132,9 @@ void GetPic (HWND hwnd)
                 GetPic (hWnd);
                 break; 
             }
-        case WM_KEYDOWN:
-            {
-              
-                break; 
-            }
-
+        case WM_LBUTTONUP:
+            gLogic.OnClick(LOWORD(lparam), HIWORD(lparam));
+            break;
         case WM_CLOSE:
             DestroyWindow(hWnd);
             break;
