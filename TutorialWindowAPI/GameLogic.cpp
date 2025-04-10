@@ -54,9 +54,9 @@ namespace solitaire
     {
         // todo
         mDeck.push_back(solitaire::Card(solitaire::Type::Andoris, 0, 0));
-        mDeck.push_back(solitaire::Card(solitaire::Type::Belka, 120, 0));
-        mDeck.push_back(solitaire::Card(solitaire::Type::Klukai, 240, 0));
-        mDeck.push_back(solitaire::Card(solitaire::Type::Mechty, 360, 0));
+        mDeck.push_back(solitaire::Card(solitaire::Type::Belka, 250, 0));
+        mDeck.push_back(solitaire::Card(solitaire::Type::Klukai,  550, 0));
+        mDeck.push_back(solitaire::Card(solitaire::Type::Mechty, 750, 0));
     
     }
 }

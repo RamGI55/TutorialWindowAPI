@@ -129,7 +129,7 @@ void GetPic (HWND hwnd)
             }
         case WM_PAINT: // using window message to draw permernent regtangles.  
             {
-                GetPic (hWnd);
+                OnPaint(hWnd);
                 break; 
             }
         case WM_LBUTTONUP:
