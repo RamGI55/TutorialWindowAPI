@@ -10,8 +10,8 @@
 
 namespace solitaire
 {
-    solitaire::Card::Card(Type type, int x, int y):
-    mType(type), mX (x), mY (y), isFront (false)
+    solitaire::Card::Card(HWND hwnd, int index, Type type, int x, int y):
+    mHwnd(hwnd), mIndex(index), mType(type), mX (x), mY (y), isFront (false)
     {
         // initialise the status of the card. type, x, y and front status.
         std::wstring filename;    
@@ -42,6 +42,15 @@ namespace solitaire
 
     bool solitaire::Card::isClicked(int x, int y)
     {
+        /*if (x >= mX && y >= mY && static_cast <UINT>(x) <=mX + mFront ->GetWidth() &&
+            static_cast<UINT>(y) <=mY + mFront ->GetHeight())*/ // this if sentence is no longer needed if you use Rect. 
+        Gdiplus::Rect rct (mX, mY, mFront->GetWidth(), mFront->GetHeight()); // Rect function can verify the area of the windows.
+        if (rct.Contains(x, y))
+        {
+            flipCard(!isFront);
+            return true;
+        }
+        
         // Always false unless the card has been clicked. 
         return false; 
     }
@@ -50,6 +59,7 @@ namespace solitaire
     {
         // show the front image of the card.
         isFront = inisfront;
+        Invalidate();
     }
 
     void solitaire::Card::Draw(Gdiplus::Graphics& graphics) 
@@ -68,4 +78,15 @@ namespace solitaire
 
         // otherwise, draw the back image of the card. 
     }
+
+    void Card::Invalidate()
+    {
+        RECT rect{mX, mY,
+        static_cast<LONG> (mX+ mBack->GetWidth()),
+        static_cast<LONG> (mY+ mBack->GetHeight())};
+
+        InvalidateRect(mHwnd, &rect, false);
+    }
+    
 }
+

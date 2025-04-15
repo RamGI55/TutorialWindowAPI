@@ -24,11 +24,13 @@ namespace solitaire
 
     class Card
     {
+    private: 
         // back and front image
         std::unique_ptr<Gdiplus::Image> mBack;
         std::unique_ptr<Gdiplus::Image> mFront;
             // using smarter pointer to avoid memory leak.
-        
+        HWND mHwnd;
+        int mIndex; 
         // size of the card - x y
         int mX;
         int mY;
@@ -36,15 +38,20 @@ namespace solitaire
         bool isFront;
         Type mType;
         // type of the card
-        
+    
     public:
         // Constructor of the card - Type, x, y
-        Card(Type type, int x, int y); 
+        Card(HWND hwnd, int index, Type type, int x, int y); 
         // bool for checking it is clicked or not.
         bool isClicked(int x, int y); 
         // fliping logic
         void flipCard(bool isfront); 
         // drawing the card
         void Draw(Gdiplus::Graphics& graphics);
+        // invalidate the card for drawing the front.
+        void Invalidate();
+
+        Type GetType() {return mType;}
+        int GetIndex() {return mIndex;}
     };
 }

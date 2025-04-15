@@ -54,10 +54,11 @@ int WINAPI WinMain(
         return 0;
     }
 
-    RECT wr = { 0, 0, 1024, 768}; // set the size, and the position of the window.
+    RECT wr = { 0, 0, 1500, 850}; // set the size, and the position of the window.
 
     // Generate the windows
-    hWnd = CreateWindowEx(NULL,
+    hWnd = CreateWindowEx(
+        WS_EX_COMPOSITED,
         gClassName,
         L"Solitare",
         WS_OVERLAPPEDWINDOW,
@@ -78,7 +79,7 @@ int WINAPI WinMain(
             );
         return 0; 
     }
-    gLogic.Init();
+    gLogic.Init(hWnd);
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
